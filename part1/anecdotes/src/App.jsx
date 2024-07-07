@@ -5,6 +5,11 @@ const Button = (props) => {
         <button onClick={props.onClick}>{props.text}</button>
     )
 }
+const Header = (props) => {
+    return (
+        <h1>{props.text}</h1>
+    )
+}
 const App = () => {
     const anecdotes = [
         'If it hurts, do it more often.',
@@ -29,14 +34,24 @@ const App = () => {
         votesCopy[selected] += 1;
         setVotes(votesCopy);
     };
+    const getAnecdoteWithMostVotes = () => {
+        const maxVotes = Math.max(...votes);
+        const maxIndex = votes.indexOf(maxVotes);
+        return { anecdote: anecdotes[maxIndex], votes: maxVotes };
+    };
 
+    const mostVoted = getAnecdoteWithMostVotes();
 
     return (
         <div>
+            <Header text="Anecdote of the day"/>
             <p>{anecdotes[selected]}</p>
             <p>has {votes[selected]} votes</p>
             <Button onClick={getRandomAnecdote} text="Next Anecdote"/>
             <Button onClick={voteAnecdote} text="Vote"/>
+            <Header text="Anecdote with most votes"/>
+            <p>{mostVoted.anecdote}</p>
+            <p>has {mostVoted.votes} votes</p>
         </div>
     );
 }
