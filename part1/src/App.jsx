@@ -14,7 +14,10 @@ const Button = (props) => {
 const Statistic = (props) => {
 
     return (
-        <p> {props.text} {props.value}</p>
+        <tr>
+            <td>{props.text}</td>
+            <td>{props.value}</td>
+        </tr>
     )
 }
 const App = () => {
@@ -37,14 +40,16 @@ const App = () => {
             {all === 0 ? (
                 <p>No feedback given</p>
             ) : (
-                <div>
-                    <Statistic text="good" value={good} />
-                    <Statistic text="neutral" value={neutral} />
-                    <Statistic text="bad" value={bad} />
-                    <Statistic text="all" value={all} />
-                    <Statistic text="average" value={average.toFixed(2)} />
-                    <Statistic text="positive" value={positive.toFixed(2) + ' %'} />
-                </div>
+                <table>
+                    <tbody>
+                    <Statistic text="good" value={good}/>
+                    <Statistic text="neutral" value={neutral}/>
+                    <Statistic text="bad" value={bad}/>
+                    <Statistic text="all" value={all}/>
+                    <Statistic text="average" value={average.toFixed(2)}/>
+                    <Statistic text="positive" value={positive.toFixed(2) + ' %'}/>
+                    </tbody>
+                </table>
             )}
         </div>
     )
