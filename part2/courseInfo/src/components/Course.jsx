@@ -1,0 +1,19 @@
+import React from 'react';
+import Content from "./Content.jsx";
+import Header from "./Header.jsx";
+
+
+
+const Course = (props) => {
+    const { course } = props;
+
+    return (
+        <div>
+            <Header course={course.name}/>
+            <Content parts={course.parts}/>
+            {/*<Total parts={course.parts}/>*/}
+        </div>
+    );
+}
+
+export default Course;
