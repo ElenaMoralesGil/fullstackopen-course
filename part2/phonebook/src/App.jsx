@@ -1,59 +1,44 @@
 import { useState } from 'react'
 
-const Button = (props) => {
-    return (
-        <button onClick={props.onClick}>{props.text}</button>
-    )
-}
-const Header = (props) => {
-    return (
-        <h1>{props.text}</h1>
-    )
-}
 const App = () => {
-    const anecdotes = [
-        'If it hurts, do it more often.',
-        'Adding manpower to a late software project makes it later!',
-        'The first 90 percent of the code accounts for the first 90 percent of the development time...The remaining 10 percent of the code accounts for the other 90 percent of the development time.',
-        'Any fool can write code that a computer can understand. Good programmers write code that humans can understand.',
-        'Premature optimization is the root of all evil.',
-        'Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.',
-        'Programming without an extremely heavy use of console.log is same as if a doctor would refuse to use x-rays or blood tests when diagnosing patients.',
-        'The only way to go fast, is to go well.'
-    ]
+    const [persons, setPersons] = useState([
+        { name: 'Arto Hellas', id:'1' }
+    ])
+    const [newName, setNewName] = useState('')
 
-    const [selected, setSelected] = useState(0)
-    const [votes, setVotes] = useState(Array(anecdotes.length).fill(0));
-    const getRandomAnecdote = () => {
-        const randomIndex = Math.floor(Math.random() * anecdotes.length);
-        setSelected(randomIndex);
-    };
-
-    const voteAnecdote = () => {
-        const votesCopy = [...votes];
-        votesCopy[selected] += 1;
-        setVotes(votesCopy);
-    };
-    const getAnecdoteWithMostVotes = () => {
-        const maxVotes = Math.max(...votes);
-        const maxIndex = votes.indexOf(maxVotes);
-        return { anecdote: anecdotes[maxIndex], votes: maxVotes };
-    };
-
-    const mostVoted = getAnecdoteWithMostVotes();
+    const addPerson = (event) => {
+        event.preventDefault()
+        const PersonObject = {
+            name: newName,
+            id: String(persons.length + 1),
+        }
+        setPersons(persons.concat(PersonObject))
+        setNewName('')
+    }
+    const handleNameChange = (event) => {
+        console.log(event.target.value)
+        setNewName(event.target.value)
+    }
 
     return (
         <div>
-            <Header text="Anecdote of the day"/>
-            <p>{anecdotes[selected]}</p>
-            <p>has {votes[selected]} votes</p>
-            <Button onClick={getRandomAnecdote} text="Next Anecdote"/>
-            <Button onClick={voteAnecdote} text="Vote"/>
-            <Header text="Anecdote with most votes"/>
-            <p>{mostVoted.anecdote}</p>
-            <p>has {mostVoted.votes} votes</p>
+            <h2>Phonebook</h2>
+            <form onSubmit={addPerson}>
+                <div>
+                    name: <input value={newName} onChange={handleNameChange}/>
+                </div>
+                <div>
+                    <button type="submit">add</button>
+                </div>
+            </form>
+            <h2>Numbers</h2>
+            {
+                persons.map((person) => (
+                    <div key={person.id}> {person.name}</div>
+                ))
+            }
         </div>
-    );
+    )
 }
 
 export default App

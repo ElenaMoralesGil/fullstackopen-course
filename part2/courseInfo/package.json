@@ -4,10 +4,10 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "dev": "../courseInfo/node_modules/.bin/vite",
+    "build": "../courseInfo/node_modules/.bin/vite build",
+    "lint": "../courseInfo/node_modules/.bin/eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
+    "preview": "../courseInfo/node_modules/.bin/vite preview"
   },
   "dependencies": {
     "react": "^18.3.1",
