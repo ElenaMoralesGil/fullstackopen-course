@@ -2,6 +2,7 @@ import {useEffect, useState} from 'react'
 import Filter from "./components/Filter.jsx";
 import PersonForm from "./components/PersonForm.jsx";
 import Persons from "./components/Persons.jsx";
+import Notification from "./components/Notification.jsx";
 import personService from "./services/persons";
 
 const App = () => {
@@ -9,11 +10,20 @@ const App = () => {
     const [newName, setNewName] = useState('')
     const [newNumber, setNewNumber] = useState('')
     const [searchTerm, setSearchTerm] = useState('');
+    const [message, setMessage] = useState(null)
+    const [messageType, setMessageType] = useState(null)
 
     useEffect(() => {
         personService.getAll()
             .then(response => {
                 setPersons(response)
+            })
+            .catch(error => {
+                setMessage('Failed to fetch persons')
+                setMessageType('error')
+                setTimeout(() => {
+                    setMessage(null)
+                }, 5000)
             })
     }, [])
 
@@ -30,9 +40,18 @@ const App = () => {
                         setPersons(persons.map(person => person.id !== personExists.id ? person : response));
                         setNewName('');
                         setNewNumber('');
+                        setMessage(`Updated ${newName}'s number`)
+                        setMessageType('success')
+                        setTimeout(() => {
+                            setMessage(null)
+                        }, 5000)
                     })
                     .catch(error => {
-                        console.error('Failed to update person:', error);
+                        setMessage(`Failed to update ${newName}`)
+                        setMessageType('error')
+                        setTimeout(() => {
+                            setMessage(null)
+                        }, 5000)
                     });
             }
         } else {
@@ -47,6 +66,18 @@ const App = () => {
                     setPersons(persons.concat(response))
                     setNewName('')
                     setNewNumber('');
+                    setMessage(`Added ${newName}`)
+                    setMessageType('success')
+                    setTimeout(() => {
+                        setMessage(null)
+                    }, 5000)
+                })
+                .catch(error => {
+                    setMessage(`Failed to add ${newName}`)
+                    setMessageType('error')
+                    setTimeout(() => {
+                        setMessage(null)
+                    }, 5000)
                 })
         }
     }
@@ -76,6 +107,7 @@ const App = () => {
     return (
         <div>
             <h2>Phonebook</h2>
+            <Notification message={message} type={messageType} />
             <Filter handleSearchChange={handleSearchChange} searchTerm={searchTerm} />
             <h2>Add a new Contact</h2>
             <PersonForm handleNameChange={handleNameChange} handleNumberChange={handleNumberChange}
