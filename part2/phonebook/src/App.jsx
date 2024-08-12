@@ -2,7 +2,7 @@ import {useEffect, useState} from 'react'
 import Filter from "./components/Filter.jsx";
 import PersonForm from "./components/PersonForm.jsx";
 import Persons from "./components/Persons.jsx";
-import axios from "axios";
+import personService from "./services/persons";
 
 const App = () => {
     const [persons, setPersons] = useState([
@@ -16,12 +16,9 @@ const App = () => {
     const [searchTerm, setSearchTerm] = useState('');
 
     useEffect(() => {
-        console.log('effect')
-        axios
-            .get('http://localhost:3001/persons')
+        personService.getAll()
             .then(response => {
-                console.log('promise fulfilled')
-                setPersons(response.data)
+                setPersons(response)
             })
     }, [])
 
@@ -37,9 +34,16 @@ const App = () => {
                 number: newNumber,
                 id: String(persons.length + 1)
             }
-            setPersons(persons.concat(PersonObject))
-            setNewName('')
-            setNewNumber('');
+            personService
+                .create(PersonObject)
+                .then(response => {
+                    setPersons(persons.concat(response))
+                    setNewName('')
+                    setNewNumber('');
+                })
+
+
+
         }
     }
     const handleNameChange = (event) => {
