@@ -18,7 +18,7 @@ const App = () => {
             .then(response => {
                 setPersons(response)
             })
-            .catch(error => {
+            .catch(() => {
                 setMessage('Failed to fetch persons')
                 setMessageType('error')
                 setTimeout(() => {
@@ -46,7 +46,7 @@ const App = () => {
                             setMessage(null)
                         }, 5000)
                     })
-                    .catch(error => {
+                    .catch(() => {
                         setMessage(`Failed to update ${newName}`)
                         setMessageType('error')
                         setTimeout(() => {
@@ -72,7 +72,7 @@ const App = () => {
                         setMessage(null)
                     }, 5000)
                 })
-                .catch(error => {
+                .catch(() => {
                     setMessage(`Failed to add ${newName}`)
                     setMessageType('error')
                     setTimeout(() => {
